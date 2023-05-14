@@ -48,8 +48,12 @@ public class Currency {
     }
 
     public void calculateDestinationCurrency() {
-        if (allExchangeRate == null) {
+        if (destination == null) {
             throw new IllegalStateException("환율 정보가 없습니다");
+        }
+
+        if (sourceAmount == null) {
+            throw new IllegalStateException("송금액이 없습니다");
         }
 
         this.destinationAmount = allExchangeRate.get(destination) * sourceAmount; // 환율 계산 결과
