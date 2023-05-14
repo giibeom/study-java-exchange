@@ -22,21 +22,22 @@ class CurrencyTest {
                     "USA,PHILIPPINES"
             }
     )
-    public void calcCurrencyResultTest(String src, String dst) {
+    @DisplayName("Currency 도메인을 통해 환전 결과를 가져온다")
+    public void calcCurrencyResultTest(String 송금국가, String 수취국가) {
 
         //given
-        Nations srcNations = Nations.valueOf(src);
-        Nations dstNations = Nations.valueOf(dst);
-        Map<String, Double> quotes = CurrencyFixture.송금국가_기준_모든_환율정보(srcNations);
+        Nations 송금국가정보 = Nations.valueOf(송금국가);
+        Nations 수취국가정보 = Nations.valueOf(수취국가);
+        Map<String, Double> quotes = CurrencyFixture.송금국가_기준_모든_환율정보(송금국가정보);
         double amount = 10_000;
 
         //when
-        currency = Currency.of(srcNations, dstNations, amount, quotes);
+        currency = Currency.of(송금국가정보, 수취국가정보, amount, quotes);
         currency.calculateDestinationCurrency();
         Double result = currency.getDestinationAmount();
 
         //then
-        assertThat(result).isEqualTo(amount * CurrencyFixture.환율_정보(dstNations));
+        assertThat(result).isEqualTo(amount * CurrencyFixture.환율_정보(수취국가정보));
     }
 
     @DisplayName("수취 국가와 송금액 정보가 없을 경우 예외를 던진다")
