@@ -3,7 +3,6 @@ package woowaapplication.pair.exchange.currency.application;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +33,7 @@ class CurrencyServiceTest {
         //then
         assertAll(
             () -> assertThat(currencyResponseDto.getDestinationAmount()).isEqualTo(
-                currencyRequestDto.getAmountToSend() * CurrencyFixture.일본.get환율()),
+                currencyRequestDto.getAmountToSend() * CurrencyFixture.일본.환율_정보()),
             () -> assertThat(currencyResponseDto.getDestination()).isEqualTo(
                 currencyRequestDto.getReceiveCountry()),
             () -> assertThat(currencyResponseDto.getSource()).isEqualTo(
@@ -53,9 +52,9 @@ class CurrencyServiceTest {
             () -> assertThat(allCurrencyResponseDto.getDestination()).isNull(),
             () -> assertThat(allCurrencyResponseDto.getDestinationAmount()).isNull(),
             () -> assertThat(allCurrencyResponseDto.getAllExchangeRate())
-                    .containsEntry(CurrencyFixture.일본.get나라(), CurrencyFixture.일본.get환율())
-                    .containsEntry(CurrencyFixture.한국.get나라(), CurrencyFixture.한국.get환율())
-                    .containsEntry(CurrencyFixture.필리핀.get나라(), CurrencyFixture.필리핀.get환율())
+                    .containsEntry(CurrencyFixture.일본.나라_정보(), CurrencyFixture.일본.환율_정보())
+                    .containsEntry(CurrencyFixture.한국.나라_정보(), CurrencyFixture.한국.환율_정보())
+                    .containsEntry(CurrencyFixture.필리핀.나라_정보(), CurrencyFixture.필리핀.환율_정보())
         );
     }
 }

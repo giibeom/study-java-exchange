@@ -15,7 +15,7 @@ class FakeClientCurrencyApi implements ClientCurrencyApi {
     @Override
     public CurrencyInfoResponseDto getAll(Nations src) {
 
-        Map<String, Double> quotes = CurrencyFixture.getQuotes(src);
+        Map<String, Double> quotes = CurrencyFixture.송금국가_기준_모든_환율정보(src);
 
         return new CurrencyInfoResponseDto(quotes);
     }

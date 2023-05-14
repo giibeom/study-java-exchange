@@ -27,7 +27,7 @@ class CurrencyTest {
         //given
         Nations srcNations = Nations.valueOf(src);
         Nations dstNations = Nations.valueOf(dst);
-        Map<String, Double> quotes = CurrencyFixture.getQuotes(srcNations);
+        Map<String, Double> quotes = CurrencyFixture.송금국가_기준_모든_환율정보(srcNations);
         double amount = 10_000;
 
         //when
@@ -36,7 +36,7 @@ class CurrencyTest {
         Double result = currency.getDestinationAmount();
 
         //then
-        assertThat(result).isEqualTo(amount * CurrencyFixture.get환율By(dstNations));
+        assertThat(result).isEqualTo(amount * CurrencyFixture.환율_정보(dstNations));
     }
 
     @DisplayName("수취 국가와 송금액 정보가 없을 경우 예외를 던진다")
@@ -44,7 +44,7 @@ class CurrencyTest {
     void calcCurrencyBeforeSettingThrows() {
         //given
         Nations srcNations = Nations.USA;
-        Map<String, Double> quotes = CurrencyFixture.getQuotes(srcNations);
+        Map<String, Double> quotes = CurrencyFixture.송금국가_기준_모든_환율정보(srcNations);
 
         //when
         currency = Currency.of(srcNations, quotes);

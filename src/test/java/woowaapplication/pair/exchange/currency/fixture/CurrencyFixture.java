@@ -20,29 +20,29 @@ public enum CurrencyFixture {
         this.환율 = 환율;
     }
 
-    public Nations get나라() {
+    public Nations 나라_정보() {
         return 나라;
     }
 
-    public Double get환율() {
+    public Double 환율_정보() {
         return 환율;
     }
 
-    public static Map<String, Double> getQuotes(Nations src) {
+    public static Map<String, Double> 송금국가_기준_모든_환율정보(Nations 송금국가) {
         return Arrays.stream(CurrencyFixture.values())
             .collect(Collectors.toMap(
-                (nations) -> Nations.getApiResponseKey(src, nations.get나라()),
-                (nations) -> nations.get환율()
+                (nations) -> Nations.getApiResponseKey(송금국가, nations.나라_정보()),
+                (nations) -> nations.환율_정보()
             ));
     }
 
-    public static Double get환율By(Nations src) {
+    public static Double 환율_정보(Nations 송금국가) {
         return Arrays.stream(CurrencyFixture.values())
-            .filter(currencyFixture -> currencyFixture.get나라() == src)
-            .map(currencyFixture -> currencyFixture.get환율())
+            .filter(currencyFixture -> currencyFixture.나라_정보() == 송금국가)
+            .map(currencyFixture -> currencyFixture.환율_정보())
             .findFirst()
             .orElseThrow(
-                () -> new RuntimeException("can not extract currency by " + src)
+                () -> new RuntimeException("can not extract currency by " + 송금국가)
             );
     }
 }
