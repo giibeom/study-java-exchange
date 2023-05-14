@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>환율 계산기</title>
+</head>
+
+
+
+<body>
+<form action="#" th:action="@{/}" method="post">
+    <div>
+        <input type="hidden" th:value="${src}" th:name="sendCountry" />
+        <p th:text="'송금 국가: ' + ${src.fullName}"></p>
+    </div>
+    <div>
+        <label for="receiveCountry">수취 국가:</label>
+        <select id="receiveCountry" name="receiveCountry" th:onchange="changeLangSelect()">
+            <option th:each="country : ${countries}" th:value="${country}" th:text="${country.fullName}"
+                    th:if="${country != src}" th:attr="currency-name=${country.currency}" th:selected="${country == dst}"></option>
+        </select>
+    </div>
+    <div>
+        <p id="exchangeRate">환율: </p>
+    </div>
+    <div>
+        <label for="amountToSend">송금액:</label>
+        <input type="text" id="amountToSend" th:value="${amountToSend}" th:name="amountToSend">
+    </div>
+    <div>
+        <input type="submit" value="Submit">
+    </div>
+</form>
+
+<span th:text="|수취금액은 ${#numbers.formatDecimal(result,3,'COMMA',2,'POINT')} ${dst.currency} 입니다.|" th:if="${result != null}"></span>
+
+
+<script th:inline="javascript">
+    function changeLangSelect(){
+        var rates = [[${rates}]]; // Thymeleaf를 사용하여 서버에서 전달한 rates를 가져옵니다.
+        var langSelect = document.getElementById("receiveCountry");
+
+        // select element에서 선택된 option의 value가 저장된다.
+        var selectValue = langSelect.options[langSelect.selectedIndex].value;
+
+        var rate = rates[selectValue];
+        rate = Math.round(rate * 100) / 100;
+        rate = rate.toLocaleString('en-US', {minimumFractionDigits: 2});
+
+        var srcCurrency = [[${src.currency}]];
+        var selectBox = document.getElementById("receiveCountry");
+        var selectedOption = selectBox.options[selectBox.selectedIndex];
+        var currencyName = selectedOption.getAttribute("currency-name");
+
+        document.getElementById('exchangeRate').innerText = '환율: ' + rate + ' ' + currencyName + '/' + srcCurrency;
+    }
+
+    changeLangSelect();
+</script>
+</body>
+</html>
