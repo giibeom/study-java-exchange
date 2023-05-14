@@ -35,4 +35,14 @@ public enum CurrencyFixture {
                 (nations) -> nations.get환율()
             ));
     }
+
+    public static Double get환율By(Nations src) {
+        return Arrays.stream(CurrencyFixture.values())
+            .filter(currencyFixture -> currencyFixture.get나라() == src)
+            .map(currencyFixture -> currencyFixture.get환율())
+            .findFirst()
+            .orElseThrow(
+                () -> new RuntimeException("can not extract currency by " + src)
+            );
+    }
 }
