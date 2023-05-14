@@ -26,29 +26,12 @@ public class ClientCurrencyApiImpl implements ClientCurrencyApi {
     @Value("${currency.api.key}")
     private String key;
 
-
-    public CurrencyInfoResponseDto get(Nations src, Nations dst) {
-        String uri = getURI(src, dst);
-        HttpEntity<Object> httpEntity = getHttpEntityWithAuth();
-
-        ResponseEntity<CurrencyInfoResponseDto> response = restTemplate.exchange(
-                uri, HttpMethod.GET, httpEntity, CurrencyInfoResponseDto.class
-        );
-
-        if (response.getBody().getQuotes().isEmpty()) {
-            throw new RuntimeException("Currency Api Execute Error");
-        }
-
-        return response.getBody();
-    }
-
-
     public CurrencyInfoResponseDto getAll(Nations src) {
         String uri = getURI(src, Nations.values());
         HttpEntity<Object> httpEntity = getHttpEntityWithAuth();
 
         ResponseEntity<CurrencyInfoResponseDto> response = restTemplate.exchange(
-                uri, HttpMethod.GET, httpEntity, CurrencyInfoResponseDto.class
+            uri, HttpMethod.GET, httpEntity, CurrencyInfoResponseDto.class
         );
 
         if (response.getBody().getQuotes().isEmpty()) {
@@ -70,8 +53,8 @@ public class ClientCurrencyApiImpl implements ClientCurrencyApi {
         uriComponentsBuilder.queryParam("source", src.getCurrency());
 
         String joinValues = Arrays.stream(dst)
-                .map(Nations::getCurrency)
-                .collect(Collectors.joining(","));
+            .map(Nations::getCurrency)
+            .collect(Collectors.joining(","));
 
         uriComponentsBuilder.queryParam("currencies", joinValues);
 
